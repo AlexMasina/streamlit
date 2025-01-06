@@ -34,7 +34,7 @@ def main():
 
     # Load model and vectorizer
     try:
-        predictor  = joblib.load(open(os.path.join("best_model.pkl"),"rb"))
+        predictor = joblib.load(open(os.path.join("best_model.pkl"),"rb"))
         vectorizer = joblib.load(open(os.path.join("vectorizer.pkl"),"rb"))
     except FileNotFoundError:
         st.error("Model files not found. Please train the model and save it as 'best_model.pkl' and 'vectorizer.pkl'.")
@@ -62,11 +62,17 @@ def main():
         news_text = st.text_area("Enter News Content", "Type here...")
 
         if st.button("Classify"):
-            # Transforming user input with vectorizer
-            vect_text = vectorizer.transform([news_text])
-            prediction = predictor.predict(vect_text)[0]
-            predicted_category = train_data['category'].unique()[prediction]
-            st.success(f"Text Categorized as: {predicted_category}")
+            if not news_text.strip():
+                st.error("Please enter some text for classification.")
+            else:
+                # Transforming user input with vectorizer
+                try:
+                    vect_text = vectorizer.transform([news_text])
+                    prediction = predictor.predict(vect_text)[0]
+                    categories = list(train_data['Category'].unique())
+                    st.success(f"Text Categorized as: {categories[prediction]}")
+                except Exception as e:
+                    st.error(f"An error occurred during prediction: {e}")
 
 if __name__ == "__main__":
     main()
