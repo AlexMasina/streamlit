@@ -34,8 +34,8 @@ def main():
 
     # Load model and vectorizer
     try:
-        predictor = joblib.load("best_model.pkl")
-        vectorizer = joblib.load("vectorizer.pkl")
+        predictor  = joblib.load(open(os.path.join("best_model.pkl"),"rb"))
+        vectorizer = joblib.load(open(os.path.join("vectorizer.pkl"),"rb"))
     except FileNotFoundError:
         st.error("Model files not found. Please train the model and save it as 'best_model.pkl' and 'vectorizer.pkl'.")
         return
