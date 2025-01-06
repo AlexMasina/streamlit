@@ -28,13 +28,6 @@ import joblib,os
 # Data dependencies
 import pandas as pd
 
-# Vectorizer
-#news_vectorizer = open("streamlit/tfidfvect.pkl","rb")
-#test_cv = joblib.load(news_vectorizer) # loading your vectorizer from the pkl file
-
-# Load your raw data
-#raw = pd.read_csv("streamlit/train.csv")
-
 # The main function where we will build the actual app
 def main():
     """News Classifier App with Streamlit """
@@ -72,7 +65,7 @@ def main():
             # Transforming user input with vectorizer
             vect_text = vectorizer.transform([news_text])
             prediction = predictor.predict(vect_text)[0]
-            predicted_category = train_data['Category'].unique()[prediction]
+            predicted_category = train_data['category'].unique()[prediction]
             st.success(f"Text Categorized as: {predicted_category}")
 
 if __name__ == "__main__":
